@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FeitWorkshop.Data;
 using FeitWorkshop.Models;
-using FeitWorkshop.ViewModels;
 
 namespace FeitWorkshop.Controllers
 {
@@ -21,39 +20,9 @@ namespace FeitWorkshop.Controllers
         }
 
         // GET: Teachers
-        public async Task<IActionResult> Index(string TeacherDegree, string TeacherRank, string FName, string LName)
+        public async Task<IActionResult> Index()
         {
-
-            IQueryable<Teacher> teachers = _context.Teachers.AsQueryable();
-            IQueryable<string> degreeQuery = _context.Teachers.OrderBy(m => m.Degree).Select(m => m.Degree).Distinct();
-            IQueryable<string> rankQuery = _context.Teachers.OrderBy(m => m.AcademicRank).Select(m => m.AcademicRank).Distinct();
-
-            if (!string.IsNullOrEmpty(FName))
-            {
-                teachers = teachers.Where(s => s.FirstName.Contains(FName));
-            }
-            if (!string.IsNullOrEmpty(LName))
-            {
-                teachers = teachers.Where(s => s.LastName.Contains(LName));
-            }
-            if (!string.IsNullOrEmpty(TeacherDegree))
-            {
-                teachers = teachers.Where(x => x.Degree == TeacherDegree);
-            }
-            if (!string.IsNullOrEmpty(TeacherRank))
-            {
-                teachers = teachers.Where(x => x.AcademicRank == TeacherRank);
-            }
-
-
-            var teachersVM = new TeacherVM
-            {
-                Degree = new SelectList(await degreeQuery.ToListAsync()),
-                AcademicRank = new SelectList(await rankQuery.ToListAsync()),
-                Teachers = await teachers.ToListAsync()
-            };
-
-            return View(teachersVM);
+            return View(await _context.Teachers.ToListAsync());
         }
 
         // GET: Teachers/Details/5
