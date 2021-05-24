@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FeitWorkshop.Data;
 using FeitWorkshop.Models;
+using FeitWorkshop.ViewModels;
 
 namespace FeitWorkshop.Controllers
 {
@@ -20,9 +21,30 @@ namespace FeitWorkshop.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string FName, string LName, string Id)
         {
-            return View(await _context.Students.ToListAsync());
+
+            IQueryable<Student> students = _context.Students.AsQueryable();
+
+            if (!string.IsNullOrEmpty(FName))
+            {
+                students = students.Where(s => s.FirstName.Contains(FName));
+            }
+            if (!string.IsNullOrEmpty(LName))
+            {
+                students = students.Where(s => s.LastName.Contains(LName));
+            }
+            if (!string.IsNullOrEmpty(Id))
+            {
+                students = students.Where(s => s.StudentId.Contains(Id));
+            }
+
+            var studentsVM = new StudentVM
+            {
+                Studens = await students.ToListAsync()
+            };
+
+            return View(studentsVM);
         }
 
         // GET: Students/Details/5

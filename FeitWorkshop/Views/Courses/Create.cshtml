@@ -1,12 +1,12 @@
 ﻿@model FeitWorkshop.Models.Course
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Додади предмет";
 }
 
-<h1>Create</h1>
+<h1>Додади предмет</h1>
 
-<h4>Course</h4>
+<h4>Предмет</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -39,21 +39,21 @@
             </div>
             <div class="form-group">
                 <label asp-for="FirstTeacherId" class="control-label"></label>
-                <select asp-for="FirstTeacherId" class ="form-control" asp-items="ViewBag.FirstTeacherId"></select>
+                <select asp-for="FirstTeacherId" class="form-control" asp-items="ViewBag.FirstTeacherId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="SecondTeacherId" class="control-label"></label>
-                <select asp-for="SecondTeacherId" class ="form-control" asp-items="ViewBag.SecondTeacherId"></select>
+                <select asp-for="SecondTeacherId" class="form-control" asp-items="ViewBag.SecondTeacherId"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Додади" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад</a>
 </div>
 
 @section Scripts {

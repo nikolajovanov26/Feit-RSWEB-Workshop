@@ -1,71 +1,91 @@
-﻿@model IEnumerable<FeitWorkshop.Models.Student>
+﻿@model FeitWorkshop.ViewModels.StudentVM
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Студенти";
 }
 
-<h1>Index</h1>
+<h1>Студенти</h1>
+<br />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+    <p>
+        <a asp-action="Create">Додати нов</a>
+    </p>
+
+
+<form asp-controller="Students" asp-action="Index" method="get">
+    <p>
+        Име: <input type="text" asp-for="FName" />
+        Презиме: <input type="text" asp-for="LName" />
+        Индекс: <input type="text" asp-for="Id" />
+        <input type="submit" value="Филтрирај" /> |
+        <a asp-action="Index">Ресетирај</a>
+    </p>
+</form>
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.StudentId)
+                @Html.DisplayNameFor(model => model.Studens[0].StudentId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.Studens[0].FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.Studens[0].LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EnrollmentDate)
+                @Html.DisplayNameFor(model => model.Studens[0].EnrollmentDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AcquiredCredits)
+                @Html.DisplayNameFor(model => model.Studens[0].AcquiredCredits)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CurrentSemestar)
+                @Html.DisplayNameFor(model => model.Studens[0].CurrentSemestar)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EducationLevel)
+                @Html.DisplayNameFor(model => model.Studens[0].EducationLevel)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EnrollmentDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AcquiredCredits)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CurrentSemestar)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EducationLevel)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Studens)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EnrollmentDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AcquiredCredits)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentSemestar)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EducationLevel)
+                </td>
+                <td>
+                    
+                        <a asp-action="Edit" asp-route-id="@item.Id">Уреди</a> <p style="display:inline">|</p>
+                    
+                    <a asp-action="Details" asp-route-id="@item.Id"> Детали </a>
+                    
+                        <p style="display:inline">|</p><a asp-action="Delete" asp-route-id="@item.Id"> Избриши </a>
+                    
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
