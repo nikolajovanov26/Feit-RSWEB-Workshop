@@ -1,4 +1,6 @@
-﻿using FeitWorkshop.Models;
+﻿using FeitWorkshop.Areas.Identity.Data;
+using FeitWorkshop.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FeitWorkshop.Data
 {
-    public class FeitWorkshopContext : DbContext
+    public class FeitWorkshopContext : IdentityDbContext<FeitWorkshopUser>
     {
         public FeitWorkshopContext(DbContextOptions<FeitWorkshopContext> options) : base(options)
         {
@@ -22,11 +24,14 @@ namespace FeitWorkshop.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            base.OnModelCreating(modelBuilder);
+
+
             modelBuilder.Entity<Course>().ToTable("Course");
             modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
             modelBuilder.Entity<Student>().ToTable("Student");
             modelBuilder.Entity<Teacher>().ToTable("Teacher");
-
 
 
             modelBuilder.Entity<Enrollment>()

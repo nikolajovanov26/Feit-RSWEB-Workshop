@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FeitWorkshop.Data;
 using FeitWorkshop.Models;
+using FeitWorkshop.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FeitWorkshop.Controllers
 {
@@ -20,9 +22,30 @@ namespace FeitWorkshop.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string FName, string LName, string Id)
         {
-            return View(await _context.Students.ToListAsync());
+
+            IQueryable<Student> students = _context.Students.AsQueryable();
+
+            if (!string.IsNullOrEmpty(FName))
+            {
+                students = students.Where(s => s.FirstName.Contains(FName));
+            }
+            if (!string.IsNullOrEmpty(LName))
+            {
+                students = students.Where(s => s.LastName.Contains(LName));
+            }
+            if (!string.IsNullOrEmpty(Id))
+            {
+                students = students.Where(s => s.StudentId.Contains(Id));
+            }
+
+            var studentsVM = new StudentVM
+            {
+                Studens = await students.ToListAsync()
+            };
+
+            return View(studentsVM);
         }
 
         // GET: Students/Details/5
@@ -44,6 +67,7 @@ namespace FeitWorkshop.Controllers
         }
 
         // GET: Students/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +78,7 @@ namespace FeitWorkshop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,StudentId,FirstName,LastName,EnrollmentDate,AcquiredCredits,CurrentSemestar,EducationLevel")] Student student)
         {
             if (ModelState.IsValid)
@@ -66,6 +91,7 @@ namespace FeitWorkshop.Controllers
         }
 
         // GET: Students/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +112,7 @@ namespace FeitWorkshop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,StudentId,FirstName,LastName,EnrollmentDate,AcquiredCredits,CurrentSemestar,EducationLevel")] Student student)
         {
             if (id != student.Id)
@@ -117,6 +144,7 @@ namespace FeitWorkshop.Controllers
         }
 
         // GET: Students/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,6 +163,7 @@ namespace FeitWorkshop.Controllers
         }
 
         // POST: Students/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

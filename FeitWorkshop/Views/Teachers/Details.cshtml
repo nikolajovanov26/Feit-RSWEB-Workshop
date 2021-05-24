@@ -1,10 +1,10 @@
 ﻿@model FeitWorkshop.Models.Teacher
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Детали";
 }
 
-<h1>Details</h1>
+<h1>@Html.DisplayFor(model => model.FullName)</h1>
 
 <div>
     <h4>Teacher</h4>
@@ -49,6 +49,7 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+    {<a asp-action="Edit" asp-route-id="@Model.Id">Уреди</a><p style="display:inline"> | </p>}
+    <a asp-action="Index">Назад</a>
 </div>

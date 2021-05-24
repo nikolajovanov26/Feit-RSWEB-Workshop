@@ -50,7 +50,7 @@ namespace FeitWorkshop.Controllers
         public IActionResult Create()
         {
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Title");
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FirstName");
+            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName");
             return View();
         }
 
@@ -68,7 +68,7 @@ namespace FeitWorkshop.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Title", enrollment.CourseId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FirstName", enrollment.StudentId);
+            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName", enrollment.StudentId);
             return View(enrollment);
         }
 
@@ -86,7 +86,7 @@ namespace FeitWorkshop.Controllers
                 return NotFound();
             }
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Title", enrollment.CourseId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FirstName", enrollment.StudentId);
+            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName", enrollment.StudentId);
             return View(enrollment);
         }
 
@@ -123,7 +123,7 @@ namespace FeitWorkshop.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Title", enrollment.CourseId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FirstName", enrollment.StudentId);
+            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName", enrollment.StudentId);
             return View(enrollment);
         }
 
