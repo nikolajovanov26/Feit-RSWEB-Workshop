@@ -66,6 +66,8 @@ namespace FeitWorkshop.Controllers
             }
 
             var teacher = await _context.Teachers
+                .Include(m => m.FirstTeacher).ThenInclude(m => m.FirstTeacher)
+                .Include(m => m.SecondTeacher).ThenInclude(m => m.SecondTeacher)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (teacher == null)
             {
@@ -162,6 +164,8 @@ namespace FeitWorkshop.Controllers
             }
 
             var teacher = await _context.Teachers
+                .Include(m => m.FirstTeacher).ThenInclude(m => m.FirstTeacher)
+                .Include(m => m.SecondTeacher).ThenInclude(m => m.SecondTeacher)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (teacher == null)
             {

@@ -20,6 +20,8 @@ namespace FeitWorkshop.Controllers
 
         public IActionResult Index()
         {
+            if(!User.Identity.IsAuthenticated)
+            { Response.Redirect("Identity/Account/Login"); }
             return View();
         }
 

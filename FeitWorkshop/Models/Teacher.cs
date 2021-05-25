@@ -48,9 +48,17 @@ namespace FeitWorkshop.Models
         }
 
 
+        [Display(Name = "Предмети")]
         public ICollection<Course> FirstTeacher { get; set; }
 
-
+        [Display(Name = "Предмети")]
         public ICollection<Course> SecondTeacher { get; set; }
+
+
+        [StringLength(50)]
+        public string email { get; set; }
+
+        [StringLength(50)]
+        public string password { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace FeitWorkshop.Models
                 if (chkUser.Succeeded) { var result1 = await UserManager.AddToRoleAsync(User, "Admin"); }
             }
             FeitWorkshopUser Suser = await UserManager.FindByEmailAsync("student@feit.com");
-            if (user == null)
+            if (Suser == null)
             {
                 var User = new FeitWorkshopUser();
                 User.Email = "student@feit.com";
@@ -52,7 +52,7 @@ namespace FeitWorkshop.Models
                 if (chkUser.Succeeded) { var result1 = await UserManager.AddToRoleAsync(User, "Student"); }
             }
             FeitWorkshopUser Tuser = await UserManager.FindByEmailAsync("teacher@feit.com");
-            if (user == null)
+            if (Tuser == null)
             {
                 var User = new FeitWorkshopUser();
                 User.Email = "teacher@feit.com";

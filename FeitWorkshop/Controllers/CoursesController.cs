@@ -59,7 +59,6 @@ namespace FeitWorkshop.Controllers
         }
 
         // GET: Courses/Details/5
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

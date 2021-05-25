@@ -51,8 +51,17 @@ namespace FeitWorkshop.Models
             get { return String.Format("{0} {1}", FirstName, LastName); }
         }
 
+
+
+        [Display(Name = "Предмети")]
         public ICollection<Enrollment> Courses { get; set; }
 
         //public string ProfilePicture { get; set; }
+
+        [StringLength(50)]
+        public string email { get; set; }
+
+        [StringLength(50)]
+        public string password { get; set; }
     }
 }

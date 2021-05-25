@@ -57,6 +57,7 @@ namespace FeitWorkshop.Controllers
             }
 
             var student = await _context.Students
+                .Include(m => m.Courses).ThenInclude(m => m.Course)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
@@ -152,7 +153,7 @@ namespace FeitWorkshop.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var student = await _context.Students.Include(m => m.Courses).ThenInclude(m => m.Course)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {

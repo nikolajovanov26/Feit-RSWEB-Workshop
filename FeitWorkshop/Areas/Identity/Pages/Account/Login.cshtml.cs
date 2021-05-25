@@ -45,13 +45,15 @@ namespace FeitWorkshop.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
+            [Display(Name = "Корисничко име")]
             public string Email { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name = "Лозинка")]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Запамти ме?")]
             public bool RememberMe { get; set; }
         }
 

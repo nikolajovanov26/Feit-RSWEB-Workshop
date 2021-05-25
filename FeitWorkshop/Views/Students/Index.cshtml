@@ -16,7 +16,7 @@
         Име: <input type="text" asp-for="FName" />
         Презиме: <input type="text" asp-for="LName" />
         Индекс: <input type="text" asp-for="Id" />
-        <input type="submit" value="Филтрирај" />|
+        <input type="submit" value="Филтрирај" /> |
         <a asp-action="Index">Ресетирај</a>
     </p>
 </form>
@@ -76,6 +76,8 @@
                 <td>
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {<a asp-action="Edit" asp-route-id="@item.Id">Уреди</a><p style="display:inline"> | </p>}
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Student"))
+                    {<a asp-action="EditSt" asp-route-id="@item.Id">Уреди</a><p style="display:inline"> | </p>}
                     <a asp-action="Details" asp-route-id="@item.Id">Детали</a>
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {<p style="display:inline"> | </p><a asp-action="Delete" asp-route-id="@item.Id">Избриши</a>}
