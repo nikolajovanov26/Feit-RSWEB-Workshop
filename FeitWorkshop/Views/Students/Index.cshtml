@@ -13,10 +13,10 @@
 <br />
 <form asp-controller="Students" asp-action="Index" method="get">
     <p>
-        Име: <input type="text" asp-for="FName" />
-        Презиме: <input type="text" asp-for="LName" />
-        Индекс: <input type="text" asp-for="Id" />
-        <input type="submit" value="Филтрирај" /> |
+        Име: <input class="form-control" type="text" asp-for="FName" />
+        Презиме: <input class="form-control" type="text" asp-for="LName" />
+        Индекс: <input class="form-control" type="text" asp-for="Id" />
+        <span style="margin-left:5px;margin-right:5px;"><input type="submit" value="Филтрирај" class="btn btn-primary btn-sm" /></span>|
         <a asp-action="Index">Ресетирај</a>
     </p>
 </form>

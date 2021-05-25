@@ -13,17 +13,17 @@
 <br />
 <form asp-controller="Teachers" asp-action="Index" method="get">
     <p>
-        Име: <input type="text" asp-for="FName" />
-        Презиме: <input type="text" asp-for="LName" />
+        Име: <input type="text"  class="form-control" asp-for="FName" />
+        Презиме: <input type="text" class="form-control" asp-for="LName" />
         Диплома:
-        <select asp-for="TeacherDegree" asp-items="Model.Degree">
+        <select class="form-select" asp-for="TeacherDegree" asp-items="Model.Degree">
             <option value="">Сите</option>
         </select>
         Академски ранк:
-        <select asp-for="TeacherRank" asp-items="Model.AcademicRank">
+        <select class="form-select" asp-for="TeacherRank" asp-items="Model.AcademicRank" >
             <option value="">Сите</option>
         </select>
-        <input type="submit" value="Филтрирај" /> |
+        <span style="margin-left:5px;margin-right:5px;"><input type="submit" value="Филтрирај" class="btn btn-primary btn-sm" /></span>|
         <a asp-action="Index">Ресетирај</a>
     </p>
 </form>
