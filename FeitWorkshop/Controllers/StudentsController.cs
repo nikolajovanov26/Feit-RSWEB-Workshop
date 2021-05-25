@@ -139,11 +139,26 @@ namespace FeitWorkshop.Controllers
             }
 
             var student = await _context.Students.FindAsync(id);
+
             if (student == null)
             {
                 return NotFound();
             }
-            return View(student);
+
+            StudentVM viewmodel = new StudentVM
+            {
+                Student = student,
+                StudentId = student.StudentId,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                EnrollmentDate = student.EnrollmentDate,
+                AcquiredCredits = student.AcquiredCredits,
+                CurrentSemestar = student.CurrentSemestar,
+                EducationLevel = student.EducationLevel,
+                email = student.email,
+                password = student.password
+            };
+            return View(viewmodel);
         }
 
         // POST: Students/Edit/5
@@ -152,9 +167,10 @@ namespace FeitWorkshop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StudentId,FirstName,LastName,EnrollmentDate,AcquiredCredits,CurrentSemestar,EducationLevel")] Student student)
+        public async Task<IActionResult> Edit(int id, StudentVM viewmodel)
         {
-            if (id != student.Id)
+            
+            if (id != viewmodel.Student.Id)
             {
                 return NotFound();
             }
@@ -163,12 +179,27 @@ namespace FeitWorkshop.Controllers
             {
                 try
                 {
-                    _context.Update(student);
+                    string uniqueFileName = UploadedFile(viewmodel);
+
+                    viewmodel.Student.StudentId = viewmodel.StudentId;
+                    viewmodel.Student.FirstName = viewmodel.FirstName;
+                    viewmodel.Student.LastName = viewmodel.LastName;
+                    viewmodel.Student.EnrollmentDate = viewmodel.EnrollmentDate;
+                    viewmodel.Student.AcquiredCredits = viewmodel.AcquiredCredits;
+                    viewmodel.Student.CurrentSemestar = viewmodel.CurrentSemestar;
+                    viewmodel.Student.EducationLevel = viewmodel.EducationLevel;
+                    viewmodel.Student.email = viewmodel.email;
+                    viewmodel.Student.password = viewmodel.password;
+
+                    viewmodel.Student.ProfilePicture = uniqueFileName;
+                    _context.Update(viewmodel.Student);
                     await _context.SaveChangesAsync();
+
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentExists(student.Id))
+                    if (!StudentExists(viewmodel.Student.Id))
                     {
                         return NotFound();
                     }
@@ -179,7 +210,8 @@ namespace FeitWorkshop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(viewmodel);
+            
         }
 
         // GET: Students/Delete/5
@@ -217,5 +249,25 @@ namespace FeitWorkshop.Controllers
         {
             return _context.Students.Any(e => e.Id == id);
         }
+
+        [Authorize(Roles = "Student")]
+        public async Task<IActionResult> StudentView(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var student = await _context.Students
+                .Include(m => m.Courses).ThenInclude(m => m.Course)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            return View(student);
+        }
+
     }
 }

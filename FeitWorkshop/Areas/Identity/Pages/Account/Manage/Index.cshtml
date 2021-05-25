@@ -10,24 +10,37 @@
 <div class="row">
     <div class="col-md-6">
         <br />
+
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Student"))
+        {
+            {<a asp-controller="Students" asp-action="StudentView" asp-route-id="1">Погледни предмети</a>}
+
+        }
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Teacher"))
+        {
+            {<a asp-controller="Teachers" asp-action="TeacherView" asp-route-id="1">Погледни предмети</a>}
+
+        }
+        <br />
+
         <a asp-page="./ChangePassword">Промени лозинка</a>
         <!--
-            <form id="profile-form" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Username"></label>
-                    <input asp-for="Username" class="form-control" disabled />
-                </div>
+        <form id="profile-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="form-control" disabled />
+            </div>
 
-        <div class="form-group">
-            <label asp-for="Input.PhoneNumber"></label>
-            <input asp-for="Input.PhoneNumber" class="form-control" />
-            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-        </div>
+    <div class="form-group">
+        <label asp-for="Input.PhoneNumber"></label>
+        <input asp-for="Input.PhoneNumber" class="form-control" />
+        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+    </div>
 
-            <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
-            </form>
-                -->
+        <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+        </form>
+            -->
     </div>
 </div>
 @if (User.Identity.IsAuthenticated && User.IsInRole("Teacher"))

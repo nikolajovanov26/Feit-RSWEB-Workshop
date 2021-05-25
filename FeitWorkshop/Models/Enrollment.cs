@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -70,6 +71,14 @@ namespace FeitWorkshop.Models
         [DataType(DataType.Date)]
         [Display(Name = "Датум на запишување")]
         public DateTime? EnrollmentDate { get; set; }
+
+
+        [Display(Name = "Вкупно Поени")]
+        [NotMapped]
+        public int? TotalPoints
+        {
+            get { return (ExamPoints + SeminalPoints + ProjectPoints + AdditionalPoints); }
+        } 
 
 
     }

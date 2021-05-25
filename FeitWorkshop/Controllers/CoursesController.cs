@@ -109,6 +109,7 @@ namespace FeitWorkshop.Controllers
 
         // GET: Courses/Edit/5
         [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

@@ -1,0 +1,31 @@
+﻿@model FeitWorkshop.Models.Student
+
+@{
+    ViewData["Title"] = "Студенти";
+}
+
+<h1>Предмети</h1>
+
+
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>Име</th>
+            <th>Поени</th>
+            <th>Оцена</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var courses in Model.Courses)
+        {
+        <tr>
+            <td> @courses.Course.Title </td>
+            <td> @courses.TotalPoints </td>
+            <td> @courses.Grade </td>
+            <td style="text-align:right"> <a href="#">Уреди</a> </td>
+        </tr>
+        }
+        </tbody>
+</table>

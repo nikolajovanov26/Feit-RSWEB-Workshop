@@ -1,7 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@using Microsoft.AspNetCore.Identity
+@using FeitWorkshop.Areas.Identity.Data
+
+@inject SignInManager<FeitWorkshopUser> SignInManager
+@inject UserManager<FeitWorkshopUser> UserManager
 
 <div class="text-center">
-    <h1 class="display-4">Добродојде</h1>
+    <h1 class="display-4">Добродојде <b>@UserManager.GetUserName(User)</b>!</h1>
 </div>

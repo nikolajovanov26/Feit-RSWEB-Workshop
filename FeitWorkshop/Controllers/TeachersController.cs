@@ -228,6 +228,26 @@ namespace FeitWorkshop.Controllers
         {
             return _context.Teachers.Any(e => e.Id == id);
         }
+
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> TeacherView(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var teacher = await _context.Teachers
+                .Include(m => m.FirstTeacher).ThenInclude(m => m.FirstTeacher)
+                .Include(m => m.SecondTeacher).ThenInclude(m => m.SecondTeacher)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (teacher == null)
+            {
+                return NotFound();
+            }
+
+            return View(teacher);
+        }
     }
 }
 

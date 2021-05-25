@@ -1,0 +1,35 @@
+﻿@model FeitWorkshop.Models.Teacher
+
+@{
+    ViewData["Title"] = "Детали";
+}
+
+<h1>Предмети</h1>
+
+
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>Име</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var courses in Model.FirstTeacher)
+        {
+        <tr>
+            <td> @courses.Title </td>
+            <td style="text-align:right"> <a href="#">Уреди</a> </td>
+        </tr>
+        }
+        @foreach (var courses in Model.SecondTeacher)
+        {
+    <tr>
+        <td> @courses.Title </td>
+        <td style="text-align:right"> <a href="#">Уреди</a> </td>
+
+    </tr>
+        }
+    </tbody>
+</table>

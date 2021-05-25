@@ -61,6 +61,22 @@ namespace FeitWorkshop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CourseId,StudentId,Semester,Year,Grade,SeminalUrl,ProjectUrl,ExamPoints,SeminalPoints,ProjectPoints,AdditionalPoints,EnrollmentDate")] Enrollment enrollment)
         {
+            if (enrollment.ExamPoints  == null)
+            {
+                enrollment.ExamPoints = 0;
+            }
+            if (enrollment.SeminalPoints == null)
+            {
+                enrollment.SeminalPoints = 0;
+            }
+            if (enrollment.ProjectPoints == null)
+            {
+                enrollment.ProjectPoints = 0;
+            }
+            if (enrollment.AdditionalPoints == null)
+            {
+                enrollment.AdditionalPoints = 0;
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(enrollment);
