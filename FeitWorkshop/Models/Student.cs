@@ -56,7 +56,7 @@ namespace FeitWorkshop.Models
         [Display(Name = "Предмети")]
         public ICollection<Enrollment> Courses { get; set; }
 
-        //public string ProfilePicture { get; set; }
+        public string ProfilePicture { get; set; }
 
         [StringLength(50)]
         public string email { get; set; }

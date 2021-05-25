@@ -9,16 +9,20 @@ using FeitWorkshop.Data;
 using FeitWorkshop.Models;
 using FeitWorkshop.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace FeitWorkshop.Controllers
 {
     public class StudentsController : Controller
     {
         private readonly FeitWorkshopContext _context;
+        private readonly IHostingEnvironment webHostEnvironment;
 
-        public StudentsController(FeitWorkshopContext context)
+        public StudentsController(FeitWorkshopContext context, IHostingEnvironment hostEnvironment)
         {
             _context = context;
+            webHostEnvironment = hostEnvironment;
         }
 
         // GET: Students
@@ -80,15 +84,49 @@ namespace FeitWorkshop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("Id,StudentId,FirstName,LastName,EnrollmentDate,AcquiredCredits,CurrentSemestar,EducationLevel")] Student student)
+        public async Task<IActionResult> Create(StudentVM model)
         {
             if (ModelState.IsValid)
             {
+                string uniqueFileName = UploadedFile(model);
+
+                Student student = new Student
+                {
+                    StudentId = model.StudentId,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    EnrollmentDate = model.EnrollmentDate,
+                    AcquiredCredits = model.AcquiredCredits,
+                    CurrentSemestar = model.CurrentSemestar,
+                    EducationLevel= model.EducationLevel,
+                    email = model.email,
+                    password = model.password,
+                    ProfilePicture = uniqueFileName,
+                };
+
+
                 _context.Add(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(model);
+        }
+
+        private string UploadedFile(StudentVM model)
+        {
+            string uniqueFileName = null;
+
+            if (model.ProfileImage != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(model.ProfileImage.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.ProfileImage.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
 
         // GET: Students/Edit/5
