@@ -7,8 +7,9 @@
 <h1>@Html.DisplayFor(model => model.FullName)</h1>
 <hr />
 <div>
-    <h4>Teacher</h4>
-    <hr />
+    <img src="~/images/@Html.DisplayFor(model => model.ProfilePicture)"
+         height="100" />
+    <br />
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FirstName)

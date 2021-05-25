@@ -98,7 +98,7 @@ namespace FeitWorkshop.Controllers
                     EnrollmentDate = model.EnrollmentDate,
                     AcquiredCredits = model.AcquiredCredits,
                     CurrentSemestar = model.CurrentSemestar,
-                    EducationLevel= model.EducationLevel,
+                    EducationLevel = model.EducationLevel,
                     email = model.email,
                     password = model.password,
                     ProfilePicture = uniqueFileName,

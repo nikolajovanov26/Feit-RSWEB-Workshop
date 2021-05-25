@@ -9,16 +9,20 @@ using FeitWorkshop.Data;
 using FeitWorkshop.Models;
 using FeitWorkshop.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace FeitWorkshop.Controllers
 {
     public class TeachersController : Controller
     {
         private readonly FeitWorkshopContext _context;
+        private readonly IHostingEnvironment webHostEnvironment;
 
-        public TeachersController(FeitWorkshopContext context)
+        public TeachersController(FeitWorkshopContext context, IHostingEnvironment hostEnvironment)
         {
             _context = context;
+            webHostEnvironment = hostEnvironment;
         }
 
         // GET: Teachers
@@ -90,15 +94,48 @@ namespace FeitWorkshop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Degree,AcademicRank,OfficeNumber,HireDate")] Teacher teacher)
+        public async Task<IActionResult> Create(TeacherVM model)
         {
             if (ModelState.IsValid)
             {
+                string uniqueFileName = UploadedFile(model);
+
+                Teacher teacher = new Teacher
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Degree = model.SDegree,
+                    AcademicRank = model.SAcademicRank,
+                    OfficeNumber = model.OfficeNumber,
+                    HireDate = model.HireDate,
+                    email = model.email,
+                    password = model.password,
+                    ProfilePicture = uniqueFileName,
+                };
+
+
                 _context.Add(teacher);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(teacher);
+            return View(model);
+        }
+
+        private string UploadedFile(TeacherVM model)
+        {
+            string uniqueFileName = null;
+
+            if (model.ProfileImage != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(model.ProfileImage.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.ProfileImage.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
 
         // GET: Teachers/Edit/5

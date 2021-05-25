@@ -11,6 +11,7 @@ namespace FeitWorkshop.ViewModels
 {
     public class StudentVM
     {
+        public Student Student { get; set; }
         public IList<Student> Studens { get; set; }
         public string FName { get; set; }
         public string LName { get; set; }
