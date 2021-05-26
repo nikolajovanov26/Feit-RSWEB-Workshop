@@ -57,6 +57,8 @@
             @foreach (var student in Model.Students)
             {
                 <a asp-controller="Students" asp-action="Details" asp-route-id="@student.StudentId"> @student.Student.FullName </a>
+                <a asp-controller="Enrollments" asp-action="TeacherEdit"
+                   asp-route-courseid="@Model.Id" asp-route-studentid="@student.StudentId">Уреди</a>
                 <br />
             }
         </dd>

@@ -1,0 +1,54 @@
+﻿@model FeitWorkshop.Models.Enrollment
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>@Html.DisplayFor(model => model.Student.FullName) - @Html.DisplayFor(model => model.Course.Title)</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CourseId" />
+            <input type="hidden" asp-for="StudentId" />
+            <input type="hidden" asp-for="ExamPoints" />
+            <input type="hidden" asp-for="SeminalPoints" />
+            <input type="hidden" asp-for="ProjectPoints" />
+            <input type="hidden" asp-for="AdditionalPoints" />
+            <input type="hidden" asp-for="Grade" />
+            <div class="form-group">
+                <b>Поени</b><br />
+                Испит: @Html.DisplayFor(model => model.ExamPoints)<br />
+                Семинарска: @Html.DisplayFor(model => model.SeminalPoints)<br />
+                Проект: @Html.DisplayFor(model => model.ProjectPoints)<br />
+                Дополнителни: @Html.DisplayFor(model => model.AdditionalPoints)
+            </div>
+            <div class="form-group">
+                <b>Оцена: </b>@Html.DisplayFor(model => model.Grade)
+            </div>
+            <div class="form-group">
+                <label asp-for="SeminalUrl" class="control-label"></label>
+                <input asp-for="SeminalUrl" class="form-control" />
+                <span asp-validation-for="SeminalUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProjectUrl" class="control-label"></label>
+                <input asp-for="ProjectUrl" class="form-control" />
+                <span asp-validation-for="ProjectUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

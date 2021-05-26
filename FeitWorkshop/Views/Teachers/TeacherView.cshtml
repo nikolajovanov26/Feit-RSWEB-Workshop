@@ -8,7 +8,7 @@
 
 
 <br />
-<table class="table">
+<table class="table table-hover">
     <thead>
         <tr>
             <th>Име</th>
@@ -20,14 +20,16 @@
         {
         <tr>
             <td> @courses.Title </td>
-            <td style="text-align:right"> <a href="#">Уреди</a> </td>
+            <td style="text-align:right">
+                <a asp-controller="Courses" asp-action="TeacherView" asp-route-id="@courses.Id">Детали</a>
+            </td>
         </tr>
         }
         @foreach (var courses in Model.SecondTeacher)
         {
     <tr>
         <td> @courses.Title </td>
-        <td style="text-align:right"> <a href="#">Уреди</a> </td>
+        <td style="text-align:right"> <a asp-controller="Courses" asp-action="TeacherView" asp-route-id="@courses.Id">Детали</a></td>
 
     </tr>
         }

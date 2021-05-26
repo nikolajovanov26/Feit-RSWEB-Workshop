@@ -8,5 +8,45 @@
 @inject UserManager<FeitWorkshopUser> UserManager
 
 <div class="text-center">
+    <br />
+    <br />
     <h1 class="display-4">Добродојде <b>@UserManager.GetUserName(User)</b>!</h1>
-</div>
+
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+    {
+
+        <div class="container px-4 py-5" id="hanging-icons">
+            <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+                <div class="col d-flex align-items-start">
+                    <div>
+                        <h2>Студенти</h2>
+                        <br />
+                        <a asp-area="" asp-controller="Students" asp-action="Index" class="btn btn-primary">
+                            Види студенти
+                        </a>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-start">
+                    <div>
+                        <h2>Професори</h2>
+                        <br />
+                        <a asp-area="" asp-controller="Teachers" asp-action="Index" class="btn btn-primary">
+                            Види професори
+                        </a>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-start">
+                    <div>
+                        <h2>Предмети</h2>
+                        <br />
+                        <a asp-area="" asp-controller="Courses" asp-action="Index" class="btn btn-primary">
+                            Види предмети
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+    </div>

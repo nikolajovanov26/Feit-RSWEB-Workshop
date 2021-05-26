@@ -1,0 +1,65 @@
+﻿@model FeitWorkshop.Models.Enrollment
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>@Html.DisplayFor(model => model.Student.FullName) - @Html.DisplayFor(model => model.Course.Title)</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="TeacherEdit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input type="hidden" asp-for="CourseId" />
+                <input type="hidden" asp-for="StudentId" />
+                <input type="hidden" asp-for="SeminalUrl" />
+                <input type="hidden" asp-for="ProjectUrl" />
+                <input type="hidden" asp-for="EnrollmentDate" />
+            </div>
+            <div class="form-group">
+                <b>Семинарска: @Html.DisplayFor(model => model.SeminalUrl) </b>
+            </div>
+            <div class="form-group">
+                <b>Проект: @Html.DisplayFor(model => model.ProjectUrl)</b>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExamPoints" class="control-label"></label>
+                <input asp-for="ExamPoints" class="form-control" />
+                <span asp-validation-for="ExamPoints" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeminalPoints" class="control-label"></label>
+                <input asp-for="SeminalPoints" class="form-control" />
+                <span asp-validation-for="SeminalPoints" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProjectPoints" class="control-label"></label>
+                <input asp-for="ProjectPoints" class="form-control" />
+                <span asp-validation-for="ProjectPoints" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdditionalPoints" class="control-label"></label>
+                <input asp-for="AdditionalPoints" class="form-control" />
+                <span asp-validation-for="AdditionalPoints" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Grade" class="control-label"></label>
+                <input asp-for="Grade" class="form-control" />
+                <span asp-validation-for="Grade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

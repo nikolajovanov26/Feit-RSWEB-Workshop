@@ -8,7 +8,7 @@
 
 
 <br />
-<table class="table">
+<table class="table table-hover">
     <thead>
         <tr>
             <th>Име</th>
@@ -24,7 +24,11 @@
             <td> @courses.Course.Title </td>
             <td> @courses.TotalPoints </td>
             <td> @courses.Grade </td>
-            <td style="text-align:right"> <a href="#">Уреди</a> </td>
+            <td style="text-align:right">
+            <td style="text-align:right">
+                <a asp-controller="Enrollments" asp-action="StudentEdit"
+                   asp-route-courseid="@courses.CourseId" asp-route-studentid="@Model.Id">Уреди</a>
+            </td> </td>
         </tr>
         }
         </tbody>

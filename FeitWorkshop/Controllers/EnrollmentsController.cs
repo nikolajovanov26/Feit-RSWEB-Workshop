@@ -20,15 +20,24 @@ namespace FeitWorkshop.Controllers
         }
 
         // GET: Enrollments
+ 
         public async Task<IActionResult> Index()
         {
             var feitWorkshopContext = _context.Enrollments.Include(e => e.Course).Include(e => e.Student);
+            if (User.Identity.IsAuthenticated && User.IsInRole("Teacher"))
+            { Response.Redirect("../Teachers/TeacherView/1"); }
+            if (User.Identity.IsAuthenticated && User.IsInRole("Student"))
+            { Response.Redirect("../Students/StudentView/1"); }
             return View(await feitWorkshopContext.ToListAsync());
         }
 
         // GET: Enrollments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (User.Identity.IsAuthenticated && User.IsInRole("Teacher"))
+            { Response.Redirect("../Teachers/TeacherView/1"); }
+            if (User.Identity.IsAuthenticated && User.IsInRole("Student"))
+            { Response.Redirect("../Students/StudentView/1"); }
             if (id == null)
             {
                 return NotFound();
@@ -178,5 +187,129 @@ namespace FeitWorkshop.Controllers
         {
             return _context.Enrollments.Any(e => e.Id == id);
         }
+
+
+        
+        public async Task<IActionResult> TeacherEdit(int? CourseId, int? StudentId)
+        {
+            if (CourseId == null)
+            {
+                return NotFound();
+            }
+            if (StudentId == null)
+            {
+                return NotFound();
+            }
+            IQueryable<Enrollment> enrollments = _context.Enrollments.Include(m => m.Course).Include(m => m.Student).AsQueryable();
+            enrollments = enrollments.Where(m => m.StudentId == StudentId);
+            enrollments = enrollments.Where(m => m.CourseId == CourseId);
+            var enrollment = enrollments.First();
+            if (enrollment == null)
+            {
+                return NotFound();
+            }
+
+
+            return View(enrollment);
+        }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TeacherEdit(int id, [Bind("Id,CourseId,StudentId,Semester,Year,Grade,SeminalUrl,ProjectUrl,ExamPoints,SeminalPoints,ProjectPoints,AdditionalPoints,EnrollmentDate")] Enrollment enrollment)
+        {
+            if (id != enrollment.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(enrollment);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!EnrollmentExists(enrollment.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["Course"] = new SelectList(_context.Courses, "Id", "Title", enrollment.CourseId);
+            ViewData["Student"] = new SelectList(_context.Students, "Id", "FullName", enrollment.StudentId);
+            return View();
+        }
+
+        public async Task<IActionResult> StudentEdit(int? CourseId, int? StudentId)
+        {
+            if (CourseId == null)
+            {
+                return NotFound();
+            }
+            if (StudentId == null)
+            {
+                return NotFound();
+            }
+            IQueryable<Enrollment> enrollments = _context.Enrollments.Include(m=>m.Course).Include(m => m.Student).AsQueryable();
+            enrollments = enrollments.Where(m => m.StudentId == StudentId);
+            enrollments = enrollments.Where(m => m.CourseId == CourseId);
+            var enrollment = enrollments.First();
+            
+            if (enrollment == null)
+            {
+                return NotFound();
+            }
+
+
+            return View(enrollment);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> StudentEdit(int id, [Bind("Id,CourseId,StudentId,Semester,Year,Grade,SeminalUrl,ProjectUrl,ExamPoints,SeminalPoints,ProjectPoints,AdditionalPoints,EnrollmentDate")] Enrollment enrollment)
+        {
+            if (id != enrollment.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(enrollment);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!EnrollmentExists(enrollment.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["Course"] = new SelectList(_context.Courses, "Id", "Title", enrollment.CourseId);
+            ViewData["Student"] = new SelectList(_context.Students, "Id", "FullName", enrollment.StudentId);
+            return View();
+        }
+
     }
+
+
+
+
 }

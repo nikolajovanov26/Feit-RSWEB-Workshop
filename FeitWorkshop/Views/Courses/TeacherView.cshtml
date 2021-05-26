@@ -1,0 +1,43 @@
+﻿@model FeitWorkshop.Models.Course
+
+@{
+    ViewData["Title"] = "Детали";
+}
+
+<h1>@Html.DisplayFor(model => model.Title) - Детали</h1>
+<hr />
+<br />
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Име</th>
+            <th>Семинаркса</th>
+            <th>Проект</th>
+            <th>Поени</th>
+            <th>Оцена</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model.Students)
+        {
+        <tr>
+            <td>
+                @student.Student.FullName
+                <br />@student.Student.StudentId
+            </td>
+            <td> @student.SeminalUrl </td>
+            <td> @student.ProjectUrl </td>
+            <td>
+                Испит: @student.ExamPoints
+                <br />Семинарска: @student.SeminalPoints
+                <br />Проект: @student.ProjectPoints
+                <br />Дополнителни: @student.AdditionalPoints
+            </td>
+            <td> @student.Grade </td>
+            <td style="text-align:right"> <a asp-controller="Enrollments" asp-action="TeacherEdit"
+   asp-route-courseid="@Model.Id" asp-route-studentid="@student.StudentId">Уреди</a> </td>
+        </tr>
+        }
+    </tbody>
+</table>

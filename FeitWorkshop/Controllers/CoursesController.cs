@@ -109,7 +109,6 @@ namespace FeitWorkshop.Controllers
 
         // GET: Courses/Edit/5
         [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -228,6 +227,27 @@ namespace FeitWorkshop.Controllers
         private bool CourseExists(int id)
         {
             return _context.Courses.Any(e => e.Id == id);
+        }
+
+        
+        public async Task<IActionResult> TeacherView(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var course = await _context.Courses
+                .Include(c => c.FirstTeacher)
+                .Include(c => c.SecondTeacher)
+                .Include(m => m.Students).ThenInclude(m => m.Student)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+
+            return View(course);
         }
     }
 }
